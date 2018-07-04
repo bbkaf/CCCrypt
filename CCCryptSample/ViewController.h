@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#include <CommonCrypto/CommonCryptor.h>
 
 @interface ViewController : UIViewController
 
