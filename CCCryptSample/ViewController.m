@@ -17,9 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //[self encryptDES];
+    [self encryptDES];
     [self decryptDES];
-    
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"encryptedKey"];
     
 }
 
@@ -29,8 +29,9 @@
     NSString *encryptedString = nil;
     const char *textBytes = [stringToEncrypt UTF8String];
     NSUInteger dataLength = [stringToEncrypt length];
+    //key記得轉成 c 的 char，c 不吃 NSString
+    const char *key = [@"1" UTF8String];
     unsigned char buffer[1024];
-    
     memset(buffer, 0, sizeof(char));
     size_t numBytesEncrypted = 0;
     
@@ -39,7 +40,7 @@
     CCCryptorStatus ccStatus = CCCrypt(kCCEncrypt,
                                        kCCAlgorithmDES,
                                        kCCOptionPKCS7Padding,
-                                       @"1",
+                                       key,
                                        kCCKeySizeDES,
                                        nil,
                                        textBytes,
@@ -52,9 +53,8 @@
         NSLog(@"encrypt buffer: %s",buffer);
         NSData *data = [NSData dataWithBytes:buffer length:(NSUInteger)numBytesEncrypted];
         
-        //把上次做的data存起來，給下次用，也就是每次做出的data不同
+        //把上次做的data存起來，給下次用
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"123"];
-        [self decryptDES];
     }
     
 }
@@ -62,12 +62,13 @@
 - (void)decryptDES {
     NSData *cipherData = [[NSUserDefaults standardUserDefaults] objectForKey:@"123"];
     unsigned char buffer[1024];
+    const char *key = [@"1" UTF8String];
     memset(buffer, 0, sizeof(char));
     size_t numBytesDecrypted = 0;
     CCCryptorStatus ccStatus = CCCrypt(kCCDecrypt,
                                        kCCAlgorithmDES,
                                        kCCOptionPKCS7Padding,
-                                       @"1",
+                                       key,
                                        kCCKeySizeDES,
                                        nil,
                                        [cipherData bytes],
