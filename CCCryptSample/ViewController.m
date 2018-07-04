@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self encryptDES];
+    //[self encryptDES];
     [self decryptDES];
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"encryptedKey"];
     
@@ -29,7 +29,7 @@
     NSString *encryptedString = nil;
     const char *textBytes = [stringToEncrypt UTF8String];
     NSUInteger dataLength = [stringToEncrypt length];
-    //key記得轉成 c 的 char，c 不吃 NSString
+    //key轉成 c 的 char，c 不吃 NSString
     const char *key = [@"1" UTF8String];
     unsigned char buffer[1024];
     memset(buffer, 0, sizeof(char));
