@@ -17,32 +17,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self encryptDES];
-//    [self decryptDES];
+    [self encryptDES];
+    [self decryptDES];
     
-    //[self tripleDesEncryptString:@"saodfijcowmiecrowiteqcihasdifjkfgnc29 3][12040pafsdjiu48c09x209daokfpsmguh93cowkspdokfpoirjtmvwemrfj,xpojgicuo,ai,iwuehx.c,sm::sdjoi[]'a/s;x.`012`23456789jskiec" key:@"123456789123456789123456"];
+    [self tripleDesEncryptString:@"another new saodfijcowmiecrowiteqcihasdifjkfgnc29 3][12040pafsdjiu48c09x209daokfpsmguh93cowkspdokfpoirjtmvwemrfj,xpojgicuo,ai,iwuehx.c,sm::sdjoi[]'a/s;x.`012`23456789jskiec" key:@"123456789123456789123456"];
     NSData *cipherData = [[NSUserDefaults standardUserDefaults] objectForKey:@"new123"];
     [self tripleDesDecryptData:cipherData key:@"123456789123456789123456"];
-//    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"encryptedKey"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"encryptedKey"];
     
 }
 
 - (void)encryptDES {
     
-    NSString *stringToEncrypt = @"1";
+    NSString *stringToEncrypt = @"123123123123123123123123123123123asd asd";
     NSString *encryptedString = nil;
-    const char *textBytes = [stringToEncrypt UTF8String];
+    const void *textBytes = [stringToEncrypt UTF8String];
     NSUInteger dataLength = [stringToEncrypt length];
     //key轉成 c 的 char，c 不吃 NSString
-    const char *key = [@"1" UTF8String];
+    const void *key = [@"@23another new saodfijcowmiecrowiteqcihasdifjkfgnc29 3][12040pafsdjiu48c09x209daokfpsmguh93cowkspdokfpoirjtmvwemrfj,xpojgicuo,ai,iwuehx.c,sm::sdjoi[]'a/s;x.`012`23456789jskiec中文" UTF8String];
     unsigned char buffer[1024];
     memset(buffer, 0, sizeof(char));
     size_t numBytesEncrypted = 0;
-    
+    NSString *nsstringKey = @"123";
     
     
     CCCryptorStatus ccStatus = CCCrypt(kCCEncrypt,
-                                       kCCAlgorithm3DES,
+                                       kCCAlgorithmDES,
                                        kCCOptionPKCS7Padding,
                                        key,
                                        kCCKeySizeDES,
@@ -71,6 +71,8 @@
         NSLog(@"kCCDecodeError");
     } else if (ccStatus == kCCUnimplemented) {
         NSLog(@"kCCUnimplemented");
+    } else {
+        NSLog(@"on non fail");
     }
 
     
@@ -81,11 +83,11 @@
 - (void)decryptDES {
     NSData *cipherData = [[NSUserDefaults standardUserDefaults] objectForKey:@"123"];
     unsigned char buffer[1024];
-    const char *key = [@"1" UTF8String];
+    const void *key = [@"@23another new saodfijcowmiecrowiteqcihasdifjkfgnc29 3][12040pafsdjiu48c09x209daokfpsmguh93cowkspdokfpoirjtmvwemrfj,xpojgicuo,ai,iwuehx.c,sm::sdjoi[]'a/s;x.`012`23456789jskiec中文" UTF8String];
     memset(buffer, 0, sizeof(char));
     size_t numBytesDecrypted = 0;
     CCCryptorStatus ccStatus = CCCrypt(kCCDecrypt,
-                                       kCCAlgorithm3DES,
+                                       kCCAlgorithmDES,
                                        kCCOptionPKCS7Padding,
                                        key,
                                        kCCKeySizeDES,
@@ -115,6 +117,8 @@
         NSLog(@"kCCDecodeError");
     } else if (ccStatus == kCCUnimplemented) {
         NSLog(@"kCCUnimplemented");
+    }else {
+        NSLog(@"on non fail");
     }
 }
 
